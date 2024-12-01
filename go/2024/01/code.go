@@ -29,25 +29,31 @@ func parseInput(input string) [][]int {
 }
 
 func solvePart1(input [][]int) int {
-	left := []int{}
-	right := []int{}
-	for _, pair := range input {
-		left = append(left, pair[0])
-		right = append(right, pair[1])
+	n := len(input)
+	left := make([]int, n)
+	right := make([]int, n)
+	for i, pair := range input {
+		left[i] = pair[0]
+		right[i] = pair[1]
 	}
 	slices.Sort(left)
 	slices.Sort(right)
+
 	diff := 0
 	for i := range left {
 		diff += int(math.Abs(float64(left[i] - right[i])))
 	}
 	return diff
+	// or using funk
+	// return funk.Reduce(funk.Zip(left, right), func(acc int, pair []int) int {
+	// 	return acc + funk.MaxInt(pair) - funk.MinInt(pair)
+	// }, 0).(int)
 }
 func solvePart2(input [][]int) int {
-	left := []int{}
+	left := make([]int, len(input))
 	counts := make(map[int]int)
-	for _, pair := range input {
-		left = append(left, pair[0])
+	for i, pair := range input {
+		left[i] = pair[0]
 		counts[pair[1]]++
 	}
 	similarity := 0
