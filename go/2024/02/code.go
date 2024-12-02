@@ -43,8 +43,8 @@ func checkReport(report []int) bool {
 }
 func checkReportDrop(report []int) bool {
 	for i := 0; i < len(report); i++ {
-		reportCopy := append([]int{}, report...)
-		current := append(reportCopy[:i], reportCopy[i+1:]...)
+		current := slices.Clone(report)
+		current = append(current[:i], current[i+1:]...)
 		if checkReport(current) {
 			return true
 		}
