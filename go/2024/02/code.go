@@ -5,6 +5,7 @@ import (
 	"slices"
 	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/jpillora/puzzler/harness/aoc"
 	"github.com/thoas/go-funk"
@@ -70,6 +71,34 @@ func solvePart2(reports [][]int) int {
 	}
 	return cnt
 }
+func worker(jobs <-chan []int, results chan<- bool, wg *sync.WaitGroup) {
+	for report := range jobs {
+		results <- checkReportDrop(report)
+	}
+	wg.Done()
+}
+func solvePart2Concurrent(reports [][]int) int {
+	cnt := 0
+	jobs := make(chan []int, len(reports))
+	results := make(chan bool, len(reports))
+	wg := sync.WaitGroup{}
+	for _, report := range reports {
+		jobs <- report
+	}
+	close(jobs)
+	for w := 1; w <= 4; w++ {
+		wg.Add(1)
+		go worker(jobs, results, &wg)
+	}
+	wg.Wait()
+	close(results)
+	for res := range results {
+		if res {
+			cnt++
+		}
+	}
+	return cnt
+}
 
 // on code change, run will be executed 4 times:
 // 1. with: false (part1), and example input
@@ -82,6 +111,7 @@ func run(part2 bool, input string) any {
 	// when you're ready to do part 2, remove this "not implemented" block
 	if part2 {
 		return solvePart2(reports)
+		// return solvePart2Concurrent(reports)
 	}
 	// solve part 1 here
 	return solvePart1(reports)
