@@ -53,6 +53,54 @@ func checkReportDrop(report []int) bool {
 	return false
 }
 
+func checkReportDP(report []int) bool {
+	return isSortedWithDrop(report) || isSortedWithDrop(funk.Reverse(report).([]int))
+}
+
+func isSortedWithDrop(report []int) bool {
+	checkDiff := func(diff int) bool {
+		return diff >= 1 && diff <= 3
+	}
+	n := len(report)
+
+	DP := make([][]bool, n)
+	for i := 0; i < n; i++ {
+		DP[i] = make([]bool, 2)
+	}
+	DP[n-1][0] = true
+	DP[n-1][1] = true
+
+	DP[n-2][0] = checkDiff(report[n-1] - report[n-2])
+	DP[n-2][1] = true
+
+	for i := n - 3; i >= 0; i-- {
+		canJump1 := checkDiff(report[i+1] - report[i])
+		canJump2 := checkDiff(report[i+2] - report[i])
+		if canJump1 {
+			DP[i][0] = DP[i+1][0]
+		} else {
+			DP[i][0] = false
+		}
+		if canJump2 {
+			DP[i][1] = DP[i+2][0]
+		} else {
+			DP[i][1] = false
+		}
+	}
+	for i := 0; i < n-1; i++ {
+		if !checkDiff(report[i+1] - report[i]) {
+			res := DP[i][1]
+			if i == 0 {
+				return res || DP[1][0]
+			} else {
+				return res || DP[i-1][1]
+			}
+
+		}
+	}
+	return true
+}
+
 func solvePart1(reports [][]int) int {
 	cnt := 0
 	for _, report := range reports {
@@ -62,10 +110,14 @@ func solvePart1(reports [][]int) int {
 	}
 	return cnt
 }
-func solvePart2(reports [][]int) int {
+func solvePart2(reports [][]int, useChecker ...func([]int) bool) int {
+	checker := checkReportDrop
+	if len(useChecker) > 0 {
+		checker = useChecker[0]
+	}
 	cnt := 0
 	for _, report := range reports {
-		if checkReportDrop(report) {
+		if checker(report) {
 			cnt++
 		}
 	}
@@ -109,8 +161,12 @@ func solvePart2Concurrent(reports [][]int) int {
 func run(part2 bool, input string) any {
 	reports := parseInput(input)
 	// when you're ready to do part 2, remove this "not implemented" block
+	// fmt.Println(isSortedWithDrop([]int{19, 23, 26, 29, 31, 32}))
+	// fmt.Println(checkReportDrop([]int{19, 23, 26, 29, 31, 32}))
+	// return 1
+
 	if part2 {
-		return solvePart2(reports)
+		return solvePart2(reports, checkReportDP)
 		// return solvePart2Concurrent(reports)
 	}
 	// solve part 1 here
