@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/jpillora/puzzler/harness/aoc"
@@ -52,6 +51,7 @@ func solvePart1(A [][]string) int {
 	}
 	return cnt
 }
+
 func solvePart2(A [][]string) int {
 	isSaveIdx := func(i, j int) bool {
 		return i >= 0 && i < len(A) && j >= 0 && j < len(A[i])
@@ -60,7 +60,7 @@ func solvePart2(A [][]string) int {
 		indices := funk.Map(steps, func(step []int) []int {
 			return []int{i + step[0], j + step[1]}
 		}).([][]int)
-		fmt.Println(i, j, indices)
+
 		for _, idx := range indices {
 			if !isSaveIdx(idx[0], idx[1]) {
 				return false
@@ -71,30 +71,13 @@ func solvePart2(A [][]string) int {
 		return (cross1 == "MS" || cross1 == "SM") && (cross2 == "MS" || cross2 == "SM")
 	}
 
-	indicesToCheck := [][][]int{}
-	indicesToCheck = append(
-		indicesToCheck,
-		[][]int{{-1, 1}, {1, 1}, {1, -1}, {-1, -1}},
-	) // diagonal
-	indicesToCheck = append(
-		indicesToCheck,
-		[][]int{{0, 1}, {1, 0}, {0, -1}, {-1, 0}},
-	) // horizontal and vertical
+	steps := [][]int{{-1, 1}, {1, 1}, {1, -1}, {-1, -1}} // diagonal
 	cnt := 0
 	for i := 1; i < len(A)-1; i++ {
 		for j := 1; j < len(A[i])-1; j++ {
 			if A[i][j] == "A" {
-				for _, steps := range indicesToCheck {
-					if checkCross(i, j, steps) {
-						// for k := i - 1; k <= i+1; k++ {
-						// 	for l := j - 1; l <= j+1; l++ {
-						// 		fmt.Print(A[k][l])
-						// 	}
-						// 	fmt.Println()
-						// }
-						// fmt.Println()
-						cnt++
-					}
+				if checkCross(i, j, steps) {
+					cnt++
 				}
 			}
 		}
