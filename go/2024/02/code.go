@@ -95,7 +95,6 @@ func isSortedWithDrop(report []int) bool {
 			} else {
 				return res || DP[i-1][1]
 			}
-
 		}
 	}
 	return true
@@ -161,9 +160,6 @@ func solvePart2Concurrent(reports [][]int) int {
 func run(part2 bool, input string) any {
 	reports := parseInput(input)
 	// when you're ready to do part 2, remove this "not implemented" block
-	// fmt.Println(isSortedWithDrop([]int{19, 23, 26, 29, 31, 32}))
-	// fmt.Println(checkReportDrop([]int{19, 23, 26, 29, 31, 32}))
-	// return 1
 
 	if part2 {
 		return solvePart2(reports, checkReportDP)
