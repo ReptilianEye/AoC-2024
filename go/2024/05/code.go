@@ -60,7 +60,6 @@ func topologicalSort(V []int, G map[int][]int) []int {
 	var topologicalSortUtil func(int)
 	topologicalSortUtil = func(v int) {
 		visited[v] = true
-
 		for _, i := range G[v] {
 			if !visited[i] && funk.Contains(V, i) {
 				topologicalSortUtil(i)
