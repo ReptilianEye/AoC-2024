@@ -9,6 +9,12 @@
 
 [![Day](https://badgen.net/badge/01/%E2%98%85%E2%98%85/green)](go/2024/01/code.go)
 [![Day](https://badgen.net/badge/02/%E2%98%85%E2%98%85/green)](go/2024/02/code.go)
+[![Day](https://badgen.net/badge/03/%E2%98%85%E2%98%85/green)](go/2024/03/code.go)
+[![Day](https://badgen.net/badge/04/%E2%98%85%E2%98%85/green)](go/2024/04/code.go)
+[![Day](https://badgen.net/badge/05/%E2%98%85%E2%98%85/green)](go/2024/05/code.go)
+[![Day](https://badgen.net/badge/06/%E2%98%85%E2%98%85/green)](go/2024/06/code.go)
+[![Day](https://badgen.net/badge/07/%E2%98%85%E2%98%85/green)](go/2024/07/code.go)
+[![Day](https://badgen.net/badge/08/%E2%98%85%E2%98%85/green)](go/2024/08/code.go)
 
 <!--/SOLUTIONS-->
 
