@@ -1,6 +1,7 @@
 package main
 
 import (
+	"aoc-in-go/2024/utils"
 	"strings"
 
 	"github.com/jpillora/puzzler/harness/aoc"
@@ -87,20 +88,13 @@ func solvePart1(si, sj int, A [][]string) int {
 	}
 	return count
 }
-func copyGrid(A [][]string) [][]string {
-	B := make([][]string, len(A))
-	for i := range A {
-		B[i] = make([]string, len(A[i]))
-		copy(B[i], A[i])
-	}
-	return B
-}
+
 func solvePart2(si, sj int, A [][]string) int {
 	count := 0
 	for i := range A {
 		for j := range A[i] {
 			if A[i][j] == "." {
-				B := copyGrid(A)
+				B := utils.CopyGrid(A)
 				B[i][j] = "#"
 				if checkIfGuardCycles(si, sj, B) {
 					count++
