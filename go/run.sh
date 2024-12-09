@@ -11,8 +11,6 @@ function template() {
 package main
 
 import (
-	. "aoc-in-go/2024/utils"
-	
 	"github.com/jpillora/puzzler/harness/aoc"
 )
 
