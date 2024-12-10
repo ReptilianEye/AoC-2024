@@ -1,5 +1,7 @@
 package utils
 
+import "fmt"
+
 func PrintGrid(grid [][]string) {
 	for _, row := range grid {
 		for _, cell := range row {
@@ -35,6 +37,13 @@ func (a Coordinate) Equals(b Coordinate) bool {
 func (a Coordinate) InBounds(grid [][]string) bool {
 	return a[0] >= 0 && a[0] < len(grid) && a[1] >= 0 && a[1] < len(grid[0])
 }
+func (a Coordinate) InBoundsInt(grid [][]int) bool {
+	return a[0] >= 0 && a[0] < len(grid) && a[1] >= 0 && a[1] < len(grid[0])
+}
 func (a Coordinate) Unpack() (int, int) {
 	return a[0], a[1]
+}
+
+func (a Coordinate) String() string {
+	return fmt.Sprintf("%d,%d", a[0], a[1])
 }
