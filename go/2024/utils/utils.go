@@ -1,6 +1,9 @@
 package utils
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 func PrintGrid(grid [][]string) {
 	for _, row := range grid {
@@ -22,6 +25,14 @@ func CopyGrid(A [][]string) [][]string {
 
 type Coordinate [2]int
 
+func Ints(A []string) []int {
+	B := make([]int, len(A))
+	for i, a := range A {
+		B[i], _ = strconv.Atoi(a)
+	}
+	return B
+}
+
 func (a Coordinate) Sub(b Coordinate) Coordinate {
 	return Coordinate{a[0] - b[0], a[1] - b[1]}
 }
@@ -29,7 +40,9 @@ func (a Coordinate) Sub(b Coordinate) Coordinate {
 func (a Coordinate) Add(b Coordinate) Coordinate {
 	return Coordinate{a[0] + b[0], a[1] + b[1]}
 }
-
+func (a Coordinate) Multiply(n int) Coordinate {
+	return Coordinate{a[0] * n, a[1] * n}
+}
 func (a Coordinate) Equals(b Coordinate) bool {
 	return a[0] == b[0] && a[1] == b[1]
 }
