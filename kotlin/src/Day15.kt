@@ -1,6 +1,6 @@
-val movesToSteps = mapOf("^" to (-1 to 0), "v" to (1 to 0), "<" to (0 to -1), ">" to (0 to 1))
-
 fun main() {
+    val movesToSteps = mapOf("^" to (-1 to 0), "v" to (1 to 0), "<" to (0 to -1), ">" to (0 to 1))
+
     fun parseInputPart1(input: List<String>): Triple<MutableList<MutableList<String>>, List<String>, Pair<Int, Int>> {
         val map = mutableListOf<MutableList<String>>()
         var i = 0
