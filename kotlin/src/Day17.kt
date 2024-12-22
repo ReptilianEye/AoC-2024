@@ -1,5 +1,3 @@
-import kotlin.math.pow
-
 fun main() {
     data class Input(val registers: List<Long>, val instructions: List<Int>)
 
@@ -17,14 +15,16 @@ fun main() {
         val registers = input.registers.toMutableList()
         val output = mutableListOf<Int>()
 
-        fun run(lookingFor: List<Int>? = null): String {
-            var lookForIdx = 0
+        private fun Int.literal(): Int = this
+        private fun Int.combo() = if (this < 4) this.toLong() else registers[this - 4]
+
+        fun run(): String {
             do {
                 var skip = false
                 val opcode = instructions[instructionPtr]
                 val input = instructions[instructionPtr + 1]
                 when (opcode) {
-                    0 -> registers[0] = (registers[0] / 2.toDouble().pow(input.combo().toInt())).toLong()
+                    0 -> registers[0] = registers[0] shr input.combo().toInt();
                     1 -> registers[1] = registers[1] xor input.literal().toLong()
                     2 -> registers[1] = input.combo() % 8
                     3 -> {
@@ -35,23 +35,10 @@ fun main() {
                     }
 
                     4 -> registers[1] = registers[1] xor registers[2]
-                    5 -> {
-                        output.add((input.combo() % 8).toInt())
-                        if (lookingFor != null) {
-                            if (lookForIdx >= lookingFor.size) {
-                                return ""
-                            }
-                            if (output.last() != lookingFor[lookForIdx]) {
-                                return ""
-                            }
-                            lookForIdx++
-                        }
-                    }
-
-                    6 -> registers[1] = (registers[0] / 2.toDouble().pow(input.combo().toInt())).toLong()
-                    7 -> registers[2] = (registers[0] / 2.toDouble().pow(input.combo().toInt())).toLong()
+                    5 -> output.add((input.combo() % 8).toInt())
+                    6 -> registers[1] = registers[0] shr input.combo().toInt()
+                    7 -> registers[2] = registers[0] shr input.combo().toInt()
                 }
-//                println(output)
 
             } while (skip || nextInstruction())
 
@@ -65,8 +52,7 @@ fun main() {
             return instructionPtr <= instructions.lastIndex
         }
 
-        private fun Int.literal(): Int = this
-        private fun Int.combo() = if (this < 4) this.toLong() else registers[this - 4]
+
     }
 
     fun part1(input: List<String>): String {
@@ -76,33 +62,29 @@ fun main() {
 
     fun part2(input: List<String>): Long {
         val parsedInput = parseInput(input)
-        val initInstructions = parsedInput.instructions.joinToString(",")
-//        36969000000
-        var betterA = 36969000000
-        betterA = 0
-        while (true) {
-            val computer = Computer(
-                Input(
-                    listOf(betterA, parsedInput.registers[1], parsedInput.registers[2]),
-                    parsedInput.instructions
-                )
-            )
-            val res = computer.run(parsedInput.instructions)
-            if (res == initInstructions) {
-                return betterA
+        val instructions = parsedInput.instructions.map { it.toLong() }
+        fun find(instruction: List<Long>, answer: Long): Long? {
+            if (instruction.isEmpty()) return answer
+            for (t in 0..7) {
+                val a = (answer shl 3) + t
+                var b = a % 8
+                b = b xor 1
+                val c = a shr b.toInt()
+                b = b xor 5
+                b = b xor c
+                if (b % 8 == instruction.last()) {
+                    val subSol = find(instruction.dropLast(1), a) ?: continue
+                    return subSol
+                }
             }
-//            if (betterA % 1000000 == 0L)
-//            println(betterA)
-            betterA++
-
+            return null
         }
+
+        return find(instructions, 0)!!;
     }
 
 
-
     check(part1(readInput("Day17_test")) == "4,6,3,5,6,3,5,2,1,0")
-//    check(part2(readInput("Day17_test1")) == 117440L)
-
 
     part1(readInput("Day17")).println()
     part2(readInput("Day17")).println()
