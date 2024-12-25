@@ -1,3 +1,8 @@
+package day18
+
+import println
+import readInput
+
 fun main() {
     val steps = listOf(0 to 1, 1 to 0, 0 to -1, -1 to 0)
     fun parseInput(input: List<String>): List<Pair<Int, Int>> =

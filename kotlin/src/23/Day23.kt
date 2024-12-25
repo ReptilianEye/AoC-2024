@@ -1,3 +1,8 @@
+package day23
+
+import println
+import readInput
+
 fun main() {
     fun parseInput(input: List<String>) = input.map { it.split("-") }
         .fold(mutableMapOf<String, MutableList<String>>().withDefault { mutableListOf() }) { acc, nodes ->

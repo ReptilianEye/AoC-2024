@@ -1,3 +1,8 @@
+package day17
+
+import println
+import readInput
+
 fun main() {
     data class Input(val registers: List<Long>, val instructions: List<Int>)
 

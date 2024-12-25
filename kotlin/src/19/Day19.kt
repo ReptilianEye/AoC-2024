@@ -1,3 +1,8 @@
+package day19
+
+import println
+import readInput
+
 fun main() {
     fun parseInput(input: List<String>): Pair<List<String>, List<String>> {
         val towels = input[0].split(",").map { it.trim() }

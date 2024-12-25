@@ -1,3 +1,7 @@
+package day21
+
+import println
+import readInput
 import kotlin.math.min
 
 fun main() {

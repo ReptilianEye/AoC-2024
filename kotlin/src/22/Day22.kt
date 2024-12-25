@@ -1,3 +1,8 @@
+package day22
+
+import println
+import readInput
+
 fun main() {
     fun parseInput(input: List<String>) = input.map { it.toLong() }
     fun Long.mix(other: Long) = this xor other

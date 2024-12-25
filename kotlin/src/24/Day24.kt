@@ -1,3 +1,8 @@
+package day24
+
+import println
+import readInput
+
 private data class Wire(
     var value: Int? = null,
     val left: String? = null,

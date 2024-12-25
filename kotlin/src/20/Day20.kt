@@ -1,3 +1,7 @@
+package day20
+
+import println
+import readInput
 import java.util.*
 import kotlin.math.abs
 

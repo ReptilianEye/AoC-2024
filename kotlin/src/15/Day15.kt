@@ -1,3 +1,8 @@
+package day15
+
+import println
+import readInput
+
 fun main() {
     val movesToSteps = mapOf("^" to (-1 to 0), "v" to (1 to 0), "<" to (0 to -1), ">" to (0 to 1))
 

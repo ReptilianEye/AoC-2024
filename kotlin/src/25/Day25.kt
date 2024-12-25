@@ -1,3 +1,8 @@
+package day25
+
+import println
+import readInput
+
 fun main() {
     fun parseInput(input: List<String>): Pair<List<List<Int>>, List<List<Int>>> {
         val keys = mutableListOf<List<Int>>()
